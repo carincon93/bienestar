@@ -112,6 +112,11 @@ class RegistroHistoricoController extends Controller
         return back()->with('status', 'El historial fue eliminado con éxito');
     }
 
+    public function reportes()
+    {
+        return view('reportes.reportes');
+    }
+
     public function datesearch(Request $request)
     {
         $fechaInicio = $request->get('inicio');
@@ -158,9 +163,8 @@ class RegistroHistoricoController extends Controller
         ->whereBetween(DB::raw('cast(fecha as date)'), [$fechaInicio, $fechaFin])
         ->groupBy('registros_historicos.aprendiz_id', 'aprendices.nombre_completo', 'aprendices.programa_formacion', 'aprendices.numero_ficha')
         ->havingRaw('registros_historicos.aprendiz_id')
+        ->orderBy('aprendices.nombre_completo', 'ASC')
         ->get();
-
-        // dd($registros_historicos);
 
         Excel::load('reportes/Auxilio de Alimentación Semanal V-02.xlsx', function($reader) use($registros_historicos, $fecha1, $fecha2 ,$mes ,$ano) {
             $reader->sheet('Hoja1', function($sheet) use ($reader, $registros_historicos, $fecha1, $fecha2 ,$mes ,$ano) {
@@ -173,6 +177,7 @@ class RegistroHistoricoController extends Controller
                         '', '', $registro_historico->nombre_completo, $registro_historico->programa_formacion, $registro_historico->numero_ficha, $registro_historico->total, ''
                     ));
                 }
+                $sheet->setBorder('A4:G17', 'thin');
             });
 
         })->export('xls');

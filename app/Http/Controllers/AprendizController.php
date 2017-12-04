@@ -7,6 +7,7 @@ use Excel;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\AprendizRequest;
 
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ class AprendizController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('entrega_suplemento', 'ajax');
+        $this->middleware('auth')->except('entrega_suplemento', 'ajax', 'busqueda_aprendiz');
     }
 
     /**
@@ -198,6 +199,21 @@ class AprendizController extends Controller
         return view('aprendices.documentoajax', compact('busqueda'));
     }
 
+    public function busqueda_aprendiz(Request $request)
+    {
+        $numero_documento       = $request->get('numero_documento_aprendiz');
+
+        $aprendices             = DB::table('aprendices')
+                                ->select('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
+                                ->join('registros_historicos', 'registros_historicos.aprendiz_id', '=', 'aprendices.id')
+                                ->where('numero_documento', '=', $numero_documento)
+                                ->groupBy('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
+                                ->orderBy('registros_historicos.fecha', 'DESC')
+                                ->limit(1)
+                                ->get();
+    	return view('aprendices.busqueda', compact('aprendices'));
+    }
+
     public function store_import(Request $request)
     {
         if($request->file('imported-file'))
@@ -231,7 +247,7 @@ class AprendizController extends Controller
                         }
                         $dataArray[] =
                         [
-                            'nombre_completo'       => $row['nombre_completo'],
+                            'nombre_completo'       => ucwords($row['nombre_completo']),
                             'tipo_documento'        => strtolower($row['tipo_de_documento_de_identidad']),
                             'numero_documento'      => str_replace(array('.', ',', ' '), '', $row['numero_de_documento']),
                             'direccion'             => $row['direccion'],
@@ -239,7 +255,7 @@ class AprendizController extends Controller
                             'estrato'               => $row['estrato'],
                             'telefono'              => $row['telefono'],
                             'email'                 => $row['email'],
-                            'programa_formacion'    => $row['programa_de_formacion'],
+                            'programa_formacion'    => ucwords($row['programa_de_formacion']),
                             'numero_ficha'          => $row['n0_de_ficha'],
                             'jornada'               => $row['jornada'],
                             'pregunta1'             => $row['de_quien_depende_usted'],

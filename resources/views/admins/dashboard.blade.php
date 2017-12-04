@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('big-content-desc')
+@section('title', 'Solicitudes')
+
+@section('informacion')
     <!-- <h4>
     <i class="fa fa-fw fa-file-text-o"></i>
     En la siguiente tabla se listan todas las solicitudes de aprendices que requieren el suplemento alimenticio.
@@ -13,6 +15,7 @@
     </blockquote>
 </p> --}}
 @endsection
+
 @section('content')
     {{-- <a href="{{ url('admin/aprendiz/crear') }}" class="btn btn-success text-center tooltip-anadir" data-toggle="tooltip" data-placement="top" title="Anadir solicitud"><i class="fa fa-fw fa-plus"></i> Añadir aprendiz</a> --}}
     <a href="{{ url('admin/aprendiz/crear') }}" class="btn btn-success text-center"><i class="fa fa-fw fa-plus"></i> Añadir solicitud</a>
@@ -76,8 +79,8 @@
                                         <th>#</th>
                                         <th>Estado</th>
                                         <th>Nombre completo</th>
-                                        <th>Tipo de documento</th>
-                                        <th>Numero de documento</th>
+                                        <th>Número de documento</th>
+                                        <th>Programa de formación</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -96,8 +99,8 @@
                                                 @endif
                                             </td>
                                             <td>{{ $sa->nombre_completo }}</td>
-                                            <td>{{ $sa->tipo_documento === "cedula" ? "Cédula" : ($sa->tipo_documento ==="ti" ? "Tarjeta de identidad" : "") }}</td>
                                             <td>{{ $sa->numero_documento }}</td>
+                                            <td>{{ $sa->programa_formacion }}</td>
                                             <td class="td-actions">
                                                 <button class="btn btn-solicitud" data-toggle="modal" data-target="#modalSolicitud" data-id="{{ $sa->id }}" data-nombre="{{ $sa->nombre_completo }}">
                                                     Ver solicitud
@@ -158,7 +161,7 @@
                     </div>
                     <div>
                         <div class="table-responsive">
-                            <table class="table table-full table-hover">
+                            <table class="table table-full table-hover table-aprendices">
                                 <thead>
                                     <tr>
                                         <th>#</th>

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('big-content-desc')
+@section('title', 'Reportes')
+
+@section('informacion')
     <h4>Generar reportes</h4>
     <blockquote class="blockquote">
         <p>

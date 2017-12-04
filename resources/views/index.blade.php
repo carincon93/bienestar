@@ -2,7 +2,7 @@
 
     @section('title', 'Suplemento alimenticio')
 
-    @section('big-content-desc')
+    @section('informacion')
         <!-- Modal historial -->
         @include('layouts.modal_historial')
 
@@ -32,22 +32,20 @@
 
                     <!-- <i class="fa fa-fw fa-barcode"></i> -->
                     <img src="{{ asset('images/document-img.png') }}" alt="" class="img-responsive document-img">
-                    <input type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autofocus autocomplete="off" min="0">
-                    <button id="buscar_aprendiz" type="button"><i class="fa fa-search"></i></button>
-                    <div class="apprentice"></div>
+                    {{-- <input type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autofocus autocomplete="off" min="0">
+                    <button id="buscar_aprendiz" type="button"><i class="fa fa-search"></i></button> --}}
+                    {{-- <div class="apprentice"></div> --}}
+                    <form class="" action="{{ url('busqueda_aprendiz') }}" method="GET">
+                        <input name="numero_documento_aprendiz" type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autofocus autocomplete="off" min="0">
+                        <button type="submit" class="btn">Buscar</button>
+                        {{-- <button id="buscar_aprendiz" type="submit"><i class="fa fa-search"></i></button> --}}
+                    </form>
                 </div>
                 {{-- <img src="{{ asset('images/suplemento.png') }}" alt="" class="img-responsive center-block img-welc-suplemento">
                 <button class="btn btn-success center-block btn-welc-entrega" type="button" data-toggle="modal" data-target="#modalEntrega">
                     Entregar suplemento
                 </button> --}}
-                <div class="row">
-                    <div class="col-md-6">
-                        <div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                    </div>
-                </div>
+                <hr>
                 <div class="panel panel-default card">
                     <div class="panel-heading">
                         <div class="row">
@@ -65,14 +63,13 @@
 
                     <div>
                         <div class="table-responsive">
-                            <table class="table table-full table-hover">
+                            <table class="table table-full table-hover table-aprendices-beneficiados">
                                 <caption>
                                 </caption>
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Nombre completo</th>
-                                        <th>Tipo de documento</th>
                                         <th>Número de documento</th>
                                         <th>Programa de formación</th>
                                         <th>Acciones</th>
@@ -86,7 +83,6 @@
                                     <tr>
                                         <td>{{ $count++ }}</td>
                                         <td>{{ $aprendiz->nombre_completo }}</td>
-                                        <td>{{ $aprendiz->tipo_documento === "cedula" ? "Cédula" : ($aprendiz->tipo_documento ==="ti" ? "Tarjeta de identidad" : "") }}</td>
                                         <td>{{ $aprendiz->numero_documento }}</td>
                                         <td>{{ $aprendiz->programa_formacion }}</td>
                                         <td>

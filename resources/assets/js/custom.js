@@ -73,36 +73,31 @@ $(document).ready(function() {
         event.preventDefault();
         var $numero_documento = $(this).val();
         if ($numero_documento > 0) {
-            if (request != null) request.abort();
 
-            request = $.get('/buscar_aprendiz', { numero_documento: $numero_documento }, function (data, textStatus, xhr) {
+            $.get('/buscar_aprendiz', { numero_documento: $numero_documento }, function (data, textStatus, xhr) {
                 if (data) {
                     $('.apprentice').html(data);
                 } else {
                     $('.apprentice').text('El aprendiz no existe o su solicitud no ha sido aceptada aun!');
                 }
             });
-        } else {
-            setTimeout(function () {
-                // $('#resultado_instructor').children().remove();
-            }, 500);
         }
     });
-    $('body').on('click', '#buscar_aprendiz', function (event) {
-        event.preventDefault();
-        var $numero_documento = $('#numero_documento').val();
-        if ($numero_documento > 0) {
-            if (request != null) request.abort();
-
-            request = $.get('/buscar_aprendiz', { numero_documento: $numero_documento }, function (data, textStatus, xhr) {
-                if (data) {
-                    $('#apprentice').html(data);
-                } else {
-                    $('#apprentice').text('El aprendiz no existe o su solicitud no ha sido aceptada aun!');
-                }
-            });
-        }
-    });
+    // $('body').on('click', '#buscar_aprendiz', function (event) {
+    //     event.preventDefault();
+    //     var $numero_documento = $('#numero_documento').val();
+    //     if ($numero_documento > 0) {
+    //         if (request != null) request.abort();
+    //
+    //         request = $.get('/buscar_aprendiz', { numero_documento: $numero_documento }, function (data, textStatus, xhr) {
+    //             if (data) {
+    //                 $('#apprentice').html(data);
+    //             } else {
+    //                 $('#apprentice').text('El aprendiz no existe o su solicitud no ha sido aceptada aun!');
+    //             }
+    //         });
+    //     }
+    // });
 
     // ======================== Truncate solicitudes - historial ========================================
     $('body').on('click', '.form-truncate-aprendiz', function (e) {
@@ -140,7 +135,10 @@ $(document).ready(function() {
         .find("input[type=checkbox], input[type=radio]")
         .prop("checked", "")
         .end();
+
+        $('.apprentice').empty();
     });
+
     // Búsqueda por fechas
     $('body').on('click', '.enviarfechas', function (event) {
         event.preventDefault();
@@ -152,9 +150,17 @@ $(document).ready(function() {
 
         if ($inicio != 0 && $fin != 0) $('button[name="button-export-reporte"]').attr('disabled', false);else $('button[name="button-export-reporte"]').attr('disabled', true);
 
-        $.get('datesearch', { inicio: $inicio, fin: $fin }, function (data, textStatus, xhr) {
-            $('.history').html(data);
-        });
+        // $.get('datesearch', { inicio: $inicio, fin: $fin }, function (data, textStatus, xhr) {
+        //     $('.history').html(data);
+        // });
+    });
+
+    $('#formReporte').on('click', 'button[name="button-export-reporte"]', function(event) {
+        setTimeout(function () {
+            $('input[name=inicio]').val("");
+            $('input[name=fin]').val("");
+            $(".enviarfechas").click();
+        }, 8000);
     });
 
     $('body').on('click', '.reset', function (event) {
@@ -186,10 +192,10 @@ $(document).ready(function() {
 
     setTimeout(function () {
         $(".alert-dismissible").addClass('fadeOutDown');
-    }, 2000);
+    }, 4000);
     setTimeout(function () {
         $(".alert-dismissible").css('display', 'none');
-    }, 3000);
+    }, 5000);
 
     $('button[name="button-import"]').attr('disabled', true);
     $('input[name="imported-file"]').change(function () {

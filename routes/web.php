@@ -36,9 +36,8 @@ Route::group(['prefix' => 'admin'], function() {
 		return redirect('admin/dashboard');
 	});
 	Route::get('dashboard', 'AdminController@index');
-	Route::get('reportes', function() {
-		return view('reportes.reportes');
-	});
+
+	Route::get('reportes', 'RegistroHistoricoController@reportes');
 
 	// Aprendiz
 	Route::resource('aprendiz','AprendizController');
@@ -71,6 +70,8 @@ Route::group(['prefix' => 'admin'], function() {
 
 Route::get('buscar_aprendiz','AprendizController@ajax');
 Route::post('{id}/entrega_suplemento', 'AprendizController@entrega_suplemento');
+
+Route::get('busqueda_aprendiz', 'AprendizController@busqueda_aprendiz');
 
 Route::post('registro_historico/store/{id}', 'RegistroHistoricoController@store');
 Route::delete('registro_historico/{id}','RegistroHistoricoController@destroy');

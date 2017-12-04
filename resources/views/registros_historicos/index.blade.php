@@ -1,14 +1,17 @@
 @extends('layouts.app')
 
-@section('big-content-desc')
+@section('title', 'Historial de entregas')
 
+@section('informacion')
+    <blockquote class="blockquote">
+        <p>Historial de aprendices que han recibido suplementos.</p>        
+    </blockquote>
 @endsection
+
 @section('content')
     @include('layouts.modal')
-    <hr>
     <div class="row">
         <div class="col-md-8">
-            <p>Historial de aprendices que han recibido suplementos.</p>
             <div class="card">
                 <div class="card-header">
                     <h4>

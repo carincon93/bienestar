@@ -2,14 +2,14 @@
 
 @section('title','Adicionar aprendiz')
 
-@section('big-content-desc')
+@section('informacion')
 	<ul class="breadcrumb">
 		<li><a href="{{ url('admin/dashboard') }}" class="btn-link">Lista de aprendices</a></li>
 		<li>Adicionar aprendiz</li>
 	</ul>
 @endsection
 
-@section('big-content-desc')
+@section('informacion')
 @endsection
 
 @section('content')
@@ -18,6 +18,7 @@
 			<div class="card-form">
 				<form action="{{ url('admin/aprendiz') }}" method="POST">
 					{{ csrf_field()  }}
+					<p>{{ count($errors) > 0 ? 'Por favor echa un vistazo a los errores y asegurate de llenar bien cada campo.' : '' }}</p>
 					<fieldset>
 						<legend>Datos personales</legend>
 						<div class="form-group{{ $errors->has('nombre_completo') ? ' has-error' : '' }}">
@@ -218,7 +219,9 @@
 						<label for="justificacion_suplemento" class="control-label">
 							Explíque a profundidad por que requiere el suplemento <span class="requerido">*</span>
 						</label>
-						<textarea name="justificacion_suplemento" class="form-control" rows="8" cols="80">{{ old('justificacion_suplemento') }}</textarea>
+						<br>
+						<br>
+						<textarea name="justificacion_suplemento" class="form-control" rows="8" cols="80" placeholder="Escribe aquí">{{ old('justificacion_suplemento') }}</textarea>
 						@if ($errors->has('justificacion_suplemento'))
 							<span class="help-block">
 								{{ $errors->first('justificacion_suplemento') }}
@@ -240,8 +243,7 @@
 				Diligencie este formulario para agregar un solicitud.
 			</p>
 			<blockquote class="note note-info {{ count($errors) > 0 ? 'note-danger animated shake' : '' }}">
-				Los campos que tienen asterisco <span class="btn"><span class="requerido">*</span></span> son obligatorios. <br>
-				{{ count($errors) > 0 ? 'Por favor echa un vistazo a los errores y asegurate de llenar bien cada campo.' : '' }}
+				Los campos que tienen asterisco <span class="btn"><span class="requerido">*</span></span> son obligatorios.
 			</blockquote>
 		</div>
 

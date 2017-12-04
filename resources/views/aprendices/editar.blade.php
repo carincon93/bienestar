@@ -2,7 +2,7 @@
 
 @section('title','Editar aprendiz')
 
-@section('big-content-desc')
+@section('informacion')
 	<ul class="breadcrumb">
 		<li><a href="{{ url('admin/dashboard') }}" class="btn-link">Lista de aprendices</a></li>
 		<li>Editar aprendiz</li>
@@ -15,6 +15,7 @@
 			<form action="{{ url('admin/aprendiz/'.$aprendiz->id) }}" method="POST">
 				{{ csrf_field()  }}
 				{{ method_field('PUT') }}
+				<p class="note note-danger">{{ count($errors) > 0 ? 'Información: Por favor echa un vistazo a los errores y asegurate de llenar bien cada campo.' : '' }}</p>
 				<div class="form-group{{ $errors->has('nombre_completo') ? ' has-error' : '' }}">
 					<label for="nombre_completo" class="control-label">
 						Nombre completo *
@@ -126,7 +127,7 @@
 				</div>
 				<div class="form-group{{ $errors->has('jornada') ? ' has-error' : '' }}">
 					<label for="jornada" class="control-label">
-						jornada*
+						Jornada *
 					</label>
 					<input type="text" name="jornada" class="form-control" value="{{ $aprendiz->jornada }}">
 					@if ($errors->has('jornada'))
@@ -187,6 +188,7 @@
 						<div class="control__indicator"></div>
 					</label>
 				</div>
+				<br>
 				<div class="checkbox form-group">
 					<label class="control control--checkbox">
 						<input type="checkbox" name="compromiso_normas" value="si" {{ $aprendiz->compromiso_normas == 'si' ? 'checked="checked"' : '' }}>Se compromete acatar las normas sobre el manejo adecuado del suplemento.
@@ -198,7 +200,9 @@
 					<label for="justificacion_suplemento" class="control-label">
 						Explíque a profundidad por que requiere el suplemento *
 					</label>
-					<textarea name="justificacion_suplemento" rows="8" cols="80" class="form-control">{{ $aprendiz->justificacion_suplemento }}</textarea>
+					<br>
+					<br>
+					<textarea name="justificacion_suplemento" rows="8" cols="80" class="form-control" placeholder="Escribe aquí">{{ $aprendiz->justificacion_suplemento }}</textarea>
 					@if ($errors->has('justificacion_suplemento'))
 						<span class="help-block">
 							{{ $errors->first('justificacion_suplemento') }}
@@ -215,13 +219,12 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<h3><i class="fa fa-fw fa-plus"></i> Editar aprendiz</h3>
+		<h3><i class="fa fa-fw fa-pencil"></i> Editar aprendiz</h3>
 		<p>
 			Diligencie este formulario para Editar un aprendiz.
 		</p>
 		<blockquote class="note note-info {{ count($errors) > 0 ? 'note-danger animated shake' : '' }}">
-			Los campos que tienen asterisco <span class="btn">*</span> son obligatorios. <br>
-			{{ count($errors) > 0 ? 'Por favor echa un vistazo a los errores y asegurate de llenar bien cada campo.' : '' }}
+			Los campos que tienen asterisco <span class="btn">*</span> son obligatorios.
 		</blockquote>
 	</div>
 @endsection

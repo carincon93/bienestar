@@ -3,7 +3,7 @@
     @if($datos->compromiso_informar == null || $datos->compromiso_normas == null)
         <blockquote class="blockquote blockquote-danger">
             <i class="fa fa-fw fa-warning"></i>
-            El aprendiz no aceptó algun compromiso!
+            El aprendiz no aceptó algún compromiso!
         </blockquote>
     @endif
     <div class="modal-body-section">
@@ -83,12 +83,6 @@
             <div class="col-md-12">
                 <h5>De quién depende el aprendiz?</h5>
                 <p>{{ $datos->pregunta1 }}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h5>Oficio que realiza de quien depende el aprendiz</h5>
-                <p>{{ $datos->pregunta2 }}</p>
             </div>
         </div>
         <div class="row">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('big-content-desc')
+@section('informacion')
     <p>
         <blockquote class="blockquote">
             <i class="fa fa-fw fa-calendar-o"></i>

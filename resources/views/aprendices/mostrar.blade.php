@@ -2,7 +2,7 @@
 
 @section('title', 'Ver aprendiz')
 
-@section('big-content-desc')
+@section('informacion')
 	<ul class="breadcrumb">
 		<li><a href="{{ url('/admin/dashboard') }}" class="btn-link">Lista de aprendices</a></li>
 		<li>Ver Aprendiz</li>
