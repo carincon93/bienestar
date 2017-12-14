@@ -1,7 +1,6 @@
 <?php
-namespace App\Http\Controllers;
 
-use Auth;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\PasswordRequest;
@@ -9,6 +8,8 @@ use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+
+use Auth;
 
 use App\User;
 use App\Aprendiz;
@@ -25,9 +26,9 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
-     * Show the application dashboard.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */

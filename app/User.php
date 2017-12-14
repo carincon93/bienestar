@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use App\Traits\DateTranslator;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

@@ -2,7 +2,7 @@
 @section('informacion')
     <p>
         <blockquote class="blockquote">
-            <i class="fa fa-fw fa-calendar-o"></i>
+            <i class="far fa-calendar-alt"></i>
             Historial del aprendiz
         </blockquote>
     </p>

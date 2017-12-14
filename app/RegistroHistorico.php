@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+
 use App\Traits\DateTranslator;
 
 class RegistroHistorico extends Model
@@ -18,6 +19,6 @@ class RegistroHistorico extends Model
 
     public function aprendiz()
     {
-    	return $this->belongsTo('App\Aprendiz');
+        return $this->belongsTo('App\Aprendiz');
     }
 }

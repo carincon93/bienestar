@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fontawesome-all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
@@ -26,7 +26,7 @@
             {!! html_entity_decode(session('status')) !!}
         </div>
     @endif
-    @include('layouts.modal')
+    {{-- @include('layouts.modal') --}}
     @include('layouts.modal_eliminar')
     @if (Auth::check())
         <aside id="sidebar">
@@ -63,7 +63,7 @@
 
                     <li class="li-item li-item-solicitudes">
                         <a href="{{ url('admin/dashboard') }}">
-                            <i class="fa fa-fw fa-file-excel-o"></i>
+                            <i class="far fa-file-alt"></i>
                             Solicitudes
                         </a>
                     </li>
@@ -76,7 +76,7 @@
                     </li>
 
                     <li class="li-item">
-                        <a href="{{ url('admin/registro_historico') }}"><i class="fa fa-fw fa-calendar-o"></i>
+                        <a href="{{ url('admin/registro_historico') }}"><i class="fas fa-history"></i>
                             Historial de entregas
                         </a>
                     </li>
@@ -198,7 +198,7 @@
         </nav>
         <div class="main-content">
             <!-- <div class="row no-gutter"> -->
-            <div>
+            <div class="container-fluid">
                 <div class="col-md-12 big-content">
                     <!-- <div class="{{ Auth::guest() ? 'col-md-9' : 'col-md-12' }} big-content"> -->
                     <div class="informacion clearfix">
@@ -224,7 +224,7 @@
 <script src="{{ asset('js/bootstrap-datepicker.es.min.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/custom-file-input.js') }}"></script>
+{{-- <script src="{{ asset('js/custom-file-input.js') }}"></script> --}}
 <script src="{{ asset('js/custom.js') }}"></script>
 
 @stack('scripts')

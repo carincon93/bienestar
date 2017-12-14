@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Excel;
-
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+
 use App\Http\Requests\AprendizRequest;
 
 use Carbon\Carbon;
@@ -15,6 +13,9 @@ use Jenssegers\Date\Date;
 
 use App\Aprendiz;
 use App\RegistroHistorico;
+
+use Auth;
+use Excel;
 
 class AprendizController extends Controller
 {
@@ -52,7 +53,7 @@ class AprendizController extends Controller
     public function store(AprendizRequest $request)
     {
         $aprendiz = new Aprendiz();
-        $aprendiz->nombre_completo     = $request->get('nombre_completo');
+        $aprendiz->nombre_completo     = strtoupper($request->get('nombre_completo'));
         $aprendiz->tipo_documento      = $request->get('tipo_documento');
         $aprendiz->numero_documento    = $request->get('numero_documento');
         $aprendiz->direccion           = $request->get('direccion');
@@ -67,7 +68,7 @@ class AprendizController extends Controller
             ]
         ]);
         $aprendiz->email               = $request->get('email');
-        $aprendiz->programa_formacion  = $request->get('programa_formacion');
+        $aprendiz->programa_formacion  = strtoupper($request->get('programa_formacion'));
         $aprendiz->numero_ficha        = $request->get('numero_ficha');
         $aprendiz->jornada             = $request->get('jornada');
         $aprendiz->pregunta1           = $request->get('pregunta1');
@@ -180,12 +181,13 @@ class AprendizController extends Controller
 
     public function entrega_suplemento(Request $request, $id)
     {
-        $aprendiz = Aprendiz::findOrFail($id);
+        $aprendiz = Aprendiz::where('id', $id)->firstOrFail();
         $aprendiz->estado_beneficio = 1;
+        $aprendiz_id = $aprendiz->id;
         $aprendiz->save();
 
         RegistroHistorico::create([
-            'aprendiz_id'   => $request->get('aprendiz_id'),
+            'aprendiz_id'   => $aprendiz_id,
             'fecha'         => date('Y-m-d H:i:s')
         ]);
 
@@ -194,9 +196,20 @@ class AprendizController extends Controller
 
     public function ajax(Request $request)
     {
-        $busqueda = Aprendiz::numero_documento($request->get('numero_documento'))->get();
-        // return $query;
-        return view('aprendices.documentoajax', compact('busqueda'));
+        // $busqueda = Aprendiz::numero_documento($request->get('numero_documento'))->get();
+        $busqueda      = DB::table('aprendices')
+                        ->select('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
+                        ->leftJoin('registros_historicos', 'registros_historicos.aprendiz_id', '=', 'aprendices.id')
+                        ->where([
+                            ['numero_documento', $request->numero_documento],
+                            ['estado_solicitud', '=', 1]
+                        ])
+                        ->groupBy('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
+                        ->orderBy('registros_historicos.fecha', 'DESC')
+                        ->limit(1)
+                        ->get();
+        // return view('aprendices.documentoajax', compact('busqueda'));
+        return $busqueda;
     }
 
     public function busqueda_aprendiz(Request $request)
@@ -205,12 +218,16 @@ class AprendizController extends Controller
 
         $aprendices             = DB::table('aprendices')
                                 ->select('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
-                                ->join('registros_historicos', 'registros_historicos.aprendiz_id', '=', 'aprendices.id')
-                                ->where('numero_documento', '=', $numero_documento)
+                                ->leftJoin('registros_historicos', 'registros_historicos.aprendiz_id', '=', 'aprendices.id')
+                                ->where([
+                                    ['numero_documento', $numero_documento],
+                                    ['estado_solicitud', '=', 1]
+                                ])
                                 ->groupBy('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
                                 ->orderBy('registros_historicos.fecha', 'DESC')
                                 ->limit(1)
                                 ->get();
+
     	return view('aprendices.busqueda', compact('aprendices'));
     }
 
@@ -247,7 +264,7 @@ class AprendizController extends Controller
                         }
                         $dataArray[] =
                         [
-                            'nombre_completo'       => ucwords($row['nombre_completo']),
+                            'nombre_completo'       => strtoupper($row['nombre_completo']),
                             'tipo_documento'        => strtolower($row['tipo_de_documento_de_identidad']),
                             'numero_documento'      => str_replace(array('.', ',', ' '), '', $row['numero_de_documento']),
                             'direccion'             => $row['direccion'],
@@ -255,7 +272,7 @@ class AprendizController extends Controller
                             'estrato'               => $row['estrato'],
                             'telefono'              => $row['telefono'],
                             'email'                 => $row['email'],
-                            'programa_formacion'    => ucwords($row['programa_de_formacion']),
+                            'programa_formacion'    => strtoupper($row['programa_de_formacion']),
                             'numero_ficha'          => $row['n0_de_ficha'],
                             'jornada'               => $row['jornada'],
                             'pregunta1'             => $row['de_quien_depende_usted'],
@@ -284,13 +301,20 @@ class AprendizController extends Controller
                 $sheet->loadView('aprendices.historial' , array('his' => $his));
             });
             $excel->sheet('Solicitudes Aceptadas' , function($sheet) {
-                $sa = Aprendiz::where('estado_solicitud', 1)->orderBy('nombre_completo', 'DESC')->get();
+                $sa = Aprendiz::where('estado_solicitud', 1)->orderBy('nombre_completo', 'ASC')->get();
                 $sheet->loadView('aprendices.solicitudes_aceptadas' , array('sa' => $sa));
             });
             $excel->sheet('Solicitudes Rechazadas' , function($sheet) {
-                $sd = Aprendiz::where('estado_solicitud', 0)->orderBy('nombre_completo', 'DESC')->get();
+                $sd = Aprendiz::where('estado_solicitud', 0)->orderBy('nombre_completo', 'ASC')->get();
                 $sheet->loadView('aprendices.solicitudes_denegadas' , array('sd' => $sd));
             });
         })->download('xls' );
+    }
+
+    public function aceptar_solicitudes(Request $request)
+    {
+        $aprendiz = Aprendiz::whereIn('id', $request->id)->update(['estado_solicitud' => 1]);
+
+        return redirect('admin/dashboard')->with('status', 'Las solicitudes han sido aprobadas con éxito!');
     }
 }

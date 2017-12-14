@@ -1,25 +1,26 @@
 @extends('layouts.app')
 
+@section('title', 'Entrega de suplemento')
+
 @section('informacion')
     <p>
         Ingresa el número de documento del aprendiz o pasa el lector sobre el código de barras del carné del aprendiz,
         una vez la persona es identificada, dale click en 'Entregar suplemento'.
     </p>
+    <div>
+        <img src="{{ asset('images/document-img.png') }}" alt="" class="img-responsive document-img">
+        <form class="" action="{{ url('busqueda_aprendiz') }}" method="GET">
+            <input name="numero_documento_aprendiz" type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autofocus autocomplete="off" min="0">
+            <button type="submit" class="btn">Buscar</button>
+        </form>
+    </div>
 @endsection
 
 @section('content')
 
-    {{-- {{ dd($aprendices) }} --}}
     @isset($aprendices)
         @if (count($aprendices) > 0)
             @foreach ($aprendices as $aprendiz)
-                <div>
-                    <img src="{{ asset('images/document-img.png') }}" alt="" class="img-responsive document-img">
-                    <form class="" action="{{ url('busqueda_aprendiz') }}" method="GET">
-                        <input name="numero_documento_aprendiz" type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autofocus autocomplete="off" min="0">
-                        <button type="submit" class="btn">Buscar</button>
-                    </form>
-                </div>
                 <div class="aprendiz-card">
                     <div class="row">
                         <div class="col-md-6">
@@ -45,7 +46,7 @@
                     @endphp
                     <div class="entrega-warning">
                         <div class="text-center">
-                            <i class="fa fa-fw fa-warning fa-2x"></i>
+                            <i class="fas fa-exclamation-triangle fa-2x"></i>
                         </div>
                         <p class="text-center">
                             El aprendiz ya recibió el suplemento! <br>Última fecha: <strong>{{ $dt->format('l d F Y h:i A')}}</strong>

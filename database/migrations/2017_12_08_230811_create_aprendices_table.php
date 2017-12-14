@@ -27,7 +27,6 @@ class CreateAprendicesTable extends Migration
         	$table->integer('numero_ficha');
         	$table->string('jornada', 32);
         	$table->longText('pregunta1');
-        	$table->longText('pregunta2');
         	$table->longText('pregunta3');
         	$table->string('otro_apoyo', 128);
         	$table->string('compromiso_informar', 2)->nullable()->default('no');

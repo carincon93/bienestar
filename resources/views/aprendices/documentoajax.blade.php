@@ -1,10 +1,8 @@
 @foreach($busqueda as $aprendiz)
 
-    @foreach($aprendiz->registros_historicos as $his)
-        @php
-        $fecha = substr($his->fecha, 0, -9);
-        @endphp
-    @endforeach
+    @php
+    $fecha = substr($aprendiz->fecha, 0, -9);
+    @endphp
 
     <div class="aprendiz-card">
         <div class="row">
@@ -19,13 +17,13 @@
                 @if(Auth::check())
                     <a href="{{ url('admin/registro_historico/'.$aprendiz->id) }}" class="btn btn-modal-historial">Ver historial</a>
                 @endif
-            </div>            
+            </div>
         </div>
     </div>
 
-    @if(isset($fecha) && $fecha == date('Y-m-d'))
+    {{-- @if(isset($fecha) && $fecha == date('Y-m-d'))
         @php
-        $dt = new Jenssegers\Date\Date($aprendiz->registros_historicos->last()->fecha);
+        $dt = new Jenssegers\Date\Date($aprendiz->fecha);
         @endphp
         <div class="entrega-warning">
             <div class="text-center">
@@ -41,5 +39,5 @@
             <input type="hidden" name="aprendiz_id" value="{{ $aprendiz->id }}">
             <button type="submit" class="text-uppercase center-block btn btn-success" id="entregarSuplemento">Entregar suplemento</button>
         </form>
-    @endif
+    @endif --}}
 @endforeach

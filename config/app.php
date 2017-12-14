@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Bienestar'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'es',
+    'fallback_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +169,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Tinker\TinkerServiceProvider::class,
 
         /*
          * Application Service Providers...

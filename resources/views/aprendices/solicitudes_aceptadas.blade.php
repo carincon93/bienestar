@@ -13,11 +13,10 @@
 	        <th>N° DE FICHA</th>
 	        <th>JORNADA</th>
 	        <th>DE QUIEN DEPENDE USTED</th>
-	        <th>OFICIO QUE REALIZA DE QUIEN DEPENDE</th>
 	        <th>TIENE PERSONAS QUE DEPENDAN DE USTED</th>
 	        <th>ES USTED BENEFICIARIO DE ALGÚN APOYO</th>
 	        <th>COMPROMISO DEL APRENDIZ</th>
-	        <th>EXPLIQUE A PROFUNDIDAD POR QUE REQUIERE EL SUPLEMENTO</th>
+	        <th>EXPLIQUE A PROFUNDIDAD POR QUE REQUIERE EL SUPLEMENTO.</th>
 	        <th>NOVEDAD SOLICITUD</th>
 		</tr>
 	</thead>
@@ -36,10 +35,9 @@
 			<td>{{ $s->numero_ficha }}</td>
 			<td>{{ $s->jornada }}</td>
 			<td>{{ $s->pregunta1 }}</td>
-			<td>{{ $s->pregunta2 }}</td>
 			<td>{{ $s->pregunta3 }}</td>
 			<td>{{ $s->otro_apoyo }}</td>
-			<td>{{ $s->compromiso_informar == 'si' ? 'Se compromete a informar en la oficina de Bienestar al Aprendiz el momento en que usted reciba contrato de aprendizaje, consiguió empleo, o cualquier otro beneficio del Gobierno o del SENA (Monitorias, FIC, Apoyos de sostenimiento, entre otros). ' : 'No aceptó'}} {{ $s->compromiso_informar == 'si' ? ' Se compromete acatar las normas sobre el manejo adecuado del suplemento.' : 'No aceptó' }}</td>
+			<td>{{ $s->compromiso_informar }}</td>
 			<td>{{ $s->justificacion_suplemento }}</td>
 			<td>{{ $s->novedad_solicitud }}</td>
 		</tr>

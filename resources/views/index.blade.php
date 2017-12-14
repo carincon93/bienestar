@@ -26,19 +26,18 @@
         @endif
         <section class="page-section">
             <div>
-                <div class="modal-body clearfix">
+                <div>
                     Ingresa el número de documento del aprendiz o pasa el lector sobre el código de barras del carné del aprendiz,
                     una vez la persona es identificada, dale click en 'Entregar suplemento'.
 
                     <!-- <i class="fa fa-fw fa-barcode"></i> -->
                     <img src="{{ asset('images/document-img.png') }}" alt="" class="img-responsive document-img">
                     {{-- <input type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autofocus autocomplete="off" min="0">
-                    <button id="buscar_aprendiz" type="button"><i class="fa fa-search"></i></button> --}}
-                    {{-- <div class="apprentice"></div> --}}
+                    <button id="buscar_aprendiz" type="button"><i class="fa fa-search"></i></button>
+                    <div class="apprentice"></div> --}}
                     <form class="" action="{{ url('busqueda_aprendiz') }}" method="GET">
-                        <input name="numero_documento_aprendiz" type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autofocus autocomplete="off" min="0">
+                        <input name="numero_documento_aprendiz" type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autocomplete="off" min="0" autofocus>
                         <button type="submit" class="btn">Buscar</button>
-                        {{-- <button id="buscar_aprendiz" type="submit"><i class="fa fa-search"></i></button> --}}
                     </form>
                 </div>
                 {{-- <img src="{{ asset('images/suplemento.png') }}" alt="" class="img-responsive center-block img-welc-suplemento">
@@ -53,17 +52,17 @@
                                 <i class="fa fa-fw fa-list"></i>
                                 Lista de aprendices seleccionados.
                             </div>
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="search-table">
                                     <input type="text" id="myInputAprendiz" onkeyup="filterTableAprendiz()" placeholder="Buscar por nombre de aprendiz" class="form-control search-navbar custom-input">
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
                     <div>
                         <div class="table-responsive">
-                            <table class="table table-full table-hover table-aprendices-beneficiados">
+                            <table class="table table-full table-hover table-aprendices-beneficiados" id="myTable">
                                 <caption>
                                 </caption>
                                 <thead>

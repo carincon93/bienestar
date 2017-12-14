@@ -1,4 +1,12 @@
-$(document).ready(function() {
+var delay = (function(){
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+
+$(document).ready(function () {
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -10,6 +18,32 @@ $(document).ready(function() {
     $('body').on('click', '.top-login', function (event) {
         event.preventDefault();
         $('form').find('input[name=email]').focus();
+    });
+
+    var table = $('#myTable').DataTable();
+    
+    $('#tbl_solicitudesNoAceptadas').DataTable();
+
+    $('#form-aceptar-solicitud').on('click', function (e) {
+        e.preventDefault();
+        var form = this;
+
+        $(form).find('.form-group').empty();
+
+        // Iterate over all checkboxes in the table
+        table.$('input[type="checkbox"]').each(function () {
+            // If checkbox is checked
+            if (this.checked) {
+                $('#modal-multiple-solicitudes').modal('show');
+                // Create a hidden element
+                $(form).find('.form-group').append($('<input>').attr('type', 'hidden').attr('name', this.name).val(this.value));
+            }
+        });
+    });
+
+    $('body').on('click', '#btn-aceptar-solicitudes', function (event) {
+        event.preventDefault();
+        $('#form-aceptar-solicitud').submit();
     });
 
     $modalSolicitud = $('#modalSolicitud');
@@ -72,15 +106,53 @@ $(document).ready(function() {
     $('body').on('keyup', '#numero_documento', function (event) {
         event.preventDefault();
         var $numero_documento = $(this).val();
-        if ($numero_documento > 0) {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
 
-            $.get('/buscar_aprendiz', { numero_documento: $numero_documento }, function (data, textStatus, xhr) {
-                if (data) {
-                    $('.apprentice').html(data);
-                } else {
-                    $('.apprentice').text('El aprendiz no existe o su solicitud no ha sido aceptada aun!');
-                }
-            });
+        if(dd<10) {
+            dd = '0'+dd
+        }
+
+        if(mm<10) {
+            mm = '0'+mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        if ($numero_documento > 0) {
+            delay(function(){
+                // $("#loadingimg").show();
+                $.ajax({
+                    url: '/buscar_aprendiz',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {numero_documento: $numero_documento},
+                    cache: false,
+                    success: function(data) {
+                        if (data.length > 0) {
+                            if (data[0].fecha != null) {
+                                var ultimo_registro = data[0].fecha.substr(0, 10);
+                            }
+                            if (ultimo_registro === today) {
+                                console.log('no se le puede entregar');
+                                // $('#entregarSuplemento').attr('disabled', true);
+                            } else {
+                                console.log('si se le puede entregar');
+                                console.log(data[0].nombre_completo);
+                                $('#aprendiz-resultado .datos-aprendiz').append('<li>' + data[0].nombre_completo + '</li>');
+                                // $('#entregarSuplemento').attr('disabled', false);
+                                $('#aprendiz-resultado form').append('<button type="submit" class="text-uppercase center-block btn btn-success" id="entregarSuplemento">Entregar suplemento</button>');
+                            }
+                        } else {
+                            $('#aprendiz-resultado div').text('El aprendiz no existe o su solicitud no ha sido aceptada aun!');
+                        }
+                    }
+                });
+
+            }, 1000);
+        } else {
+            $('#aprendiz-resultado .datos-aprendiz').empty();
         }
     });
     // $('body').on('click', '#buscar_aprendiz', function (event) {
@@ -103,7 +175,7 @@ $(document).ready(function() {
     $('body').on('click', '.form-truncate-aprendiz', function (e) {
         e.preventDefault();
         var $formTruncFic = $(this),
-        $modalTrun = $('#confirm-delete');
+            $modalTrun = $('#confirm-delete');
         $modalTrun.find('.modal-title').text('Eliminar todos los registros');
         $modalTrun.find('.modal-body').text('Va a eliminar todos los registros. ¿Está seguro que los desea eliminar?');
         $modalTrun.find('#btn-delete').text('Eliminar todo');
@@ -118,7 +190,7 @@ $(document).ready(function() {
     $('.table-full').on('click', '.btn-delete-tbl', function (e) {
         e.preventDefault();
         var $formDel = $(this),
-        $nombre_elemento = $formDel.attr('data-nombre');
+            $nombre_elemento = $formDel.attr('data-nombre');
 
         $('.modal').find('.modal-title').text('Nombre: ' + $nombre_elemento);
         $('.modal').find('.modal-body').text('Está seguro que desea eliminar este registro?');
@@ -128,15 +200,9 @@ $(document).ready(function() {
         });
     });
     $('#modalEntrega').on('hidden.bs.modal', function (e) {
-        $(this)
-        .find("input,textarea,select")
-        .val('')
-        .end()
-        .find("input[type=checkbox], input[type=radio]")
-        .prop("checked", "")
-        .end();
+        $(this).find("input,textarea,select").val('').end().find("input[type=checkbox], input[type=radio]").prop("checked", "").end();
 
-        $('.apprentice').empty();
+        $('#aprendiz-resultado').empty();
     });
 
     // Búsqueda por fechas
@@ -155,11 +221,11 @@ $(document).ready(function() {
         // });
     });
 
-    $('#formReporte').on('click', 'button[name="button-export-reporte"]', function(event) {
+    $('#formReporte').on('click', 'button[name="button-export-reporte"]', function (event) {
         setTimeout(function () {
-            $('input[name=inicio]').val("");
-            $('input[name=fin]').val("");
-            $(".enviarfechas").click();
+            $('input[name=inicio]').val('');
+            $('input[name=fin]').val('');
+            $('.enviarfechas').click();
         }, 8000);
     });
 
@@ -206,11 +272,17 @@ $(document).ready(function() {
         $('#modalSession').modal({ backdrop: 'static', keyboard: false });
     });
 
-    $('#login').one('click',(function(event) {
+    $('#login').one('click', function (event) {
         event.preventDefault();
         $(this).closest('form').submit();
-        $(this).prop('disabled',true);
-    }));
+        $(this).prop('disabled', true);
+    });
+
+    $('#entregarSuplemento').one('click', function (event) {
+        event.preventDefault();
+        $(this).closest('form').submit();
+        $(this).prop('disabled', true);
+    });
 
     $('body').on('click', 'button[data-target="#modalHistorial"]', function (event) {
         event.preventDefault();
@@ -224,5 +296,4 @@ $(document).ready(function() {
     });
 
     $('#numero_documento').focus();
-
 });

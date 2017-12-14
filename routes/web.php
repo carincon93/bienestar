@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 // Authentication Routes...
 // Auth::routes();
 
@@ -62,6 +63,7 @@ Route::group(['prefix' => 'admin'], function() {
 	Route::get('excel','AprendizController@excel');
 	Route::post('generar_reporte','RegistroHistoricoController@generar_reporte');
 
+	Route::post('aceptar_solicitudes','AprendizController@aceptar_solicitudes');
 
 	// Cambio de contraseña
 	Route::get('password', 'AdminController@password');

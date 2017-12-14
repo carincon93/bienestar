@@ -277,7 +277,7 @@ function forEach(obj, fn) {
   }
 
   // Force an array if not already something iterable
-  if (typeof obj !== 'object' && !isArray(obj)) {
+  if (typeof obj !== 'object') {
     /*eslint no-param-reassign:0*/
     obj = [obj];
   }
@@ -781,7 +781,7 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
         status: request.status === 1223 ? 204 : request.status,
         statusText: request.status === 1223 ? 'No Content' : request.statusText,
         headers: responseHeaders,
@@ -973,25 +973,25 @@ module.exports = __webpack_require__(43);
 
 
 /**
-* First we will load all of this project's JavaScript dependencies which
-* includes Vue and other libraries. It is a great starting point when
-* building robust, powerful web applications using Vue and Laravel.
-*/
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
 
 __webpack_require__(11);
 
 window.Vue = __webpack_require__(35);
 
 /**
-* Next, we will create a fresh Vue application instance and attach it to
-* the page. Then, you may begin adding components to this application
-* or customize the JavaScript scaffolding to fit your unique needs.
-*/
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
 
-Vue.component('example', __webpack_require__(38));
+Vue.component('example-component', __webpack_require__(38));
 
 var app = new Vue({
-    el: '#app'
+  el: '#app'
 });
 
 /***/ }),
@@ -30918,8 +30918,6 @@ var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(28);
 var dispatchRequest = __webpack_require__(29);
-var isAbsoluteURL = __webpack_require__(31);
-var combineURLs = __webpack_require__(32);
 
 /**
  * Create a new instance of Axios
@@ -30950,11 +30948,6 @@ Axios.prototype.request = function request(config) {
 
   config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
   config.method = config.method.toLowerCase();
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
 
   // Hook up interceptors middleware
   var chain = [dispatchRequest, undefined];
@@ -31164,6 +31157,15 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 var utils = __webpack_require__(0);
 
+// Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+var ignoreDuplicateOf = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag',
+  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+  'referer', 'retry-after', 'user-agent'
+];
+
 /**
  * Parse headers into an object
  *
@@ -31191,7 +31193,14 @@ module.exports = function parseHeaders(headers) {
     val = utils.trim(line.substr(i + 1));
 
     if (key) {
-      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
     }
   });
 
@@ -31447,6 +31456,8 @@ var utils = __webpack_require__(0);
 var transformData = __webpack_require__(30);
 var isCancel = __webpack_require__(7);
 var defaults = __webpack_require__(2);
+var isAbsoluteURL = __webpack_require__(31);
+var combineURLs = __webpack_require__(32);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -31465,6 +31476,11 @@ function throwIfCancellationRequested(config) {
  */
 module.exports = function dispatchRequest(config) {
   throwIfCancellationRequested(config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
 
   // Ensure headers exist
   config.headers = config.headers || {};
@@ -42694,7 +42710,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Example.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ExampleComponent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -42704,9 +42720,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b6ebd97a", Component.options)
+    hotAPI.createRecord("data-v-0ca92eac", Component.options)
   } else {
-    hotAPI.reload("data-v-b6ebd97a", Component.options)
+    hotAPI.reload("data-v-0ca92eac", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -42893,7 +42909,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b6ebd97a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-0ca92eac", module.exports)
   }
 }
 

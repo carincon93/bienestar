@@ -7,27 +7,27 @@ use Illuminate\Foundation\Http\FormRequest;
 class AprendizRequest extends FormRequest
 {
     /**
-    * Determine if the user is authorized to make this request.
-    *
-    * @return bool
-    */
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
     public function authorize()
     {
         return true;
     }
 
     /**
-    * Get the validation rules that apply to the request.
-    *
-    * @return array
-    */
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         if ($this->isMethod('PUT')) {
             return [
                 'nombre_completo'           =>  'required|max:128',
                 'tipo_documento'            =>  'required|max:32',
-                'numero_documento'          =>  'required|max:10|unique:aprendices,numero_documento,'.$this->route()->aprendiz.',id',
+                'numero_documento'          =>  'required|max:12|unique:aprendices,numero_documento,'.$this->route()->aprendiz.',id',
                 'direccion'                 =>  'required|max:91',
                 'barrio'                    =>  'required|max:64',
                 'estrato'                   =>  'required|max:6',
@@ -46,7 +46,7 @@ class AprendizRequest extends FormRequest
             return [
                 'nombre_completo'           =>  'required|max:128',
                 'tipo_documento'            =>  'required|max:32',
-                'numero_documento'          =>  'required|max:10|unique:aprendices',
+                'numero_documento'          =>  'required|max:12|unique:aprendices',
                 'direccion'                 =>  'required|max:91',
                 'barrio'                    =>  'required|max:64',
                 'estrato'                   =>  'required|max:6',
@@ -72,7 +72,7 @@ class AprendizRequest extends FormRequest
             'tipo_documento.required'            =>  'El tipo de documento es requerido',
             'tipo_documento.max'                 =>  'El máximo permitido de caracteres es 32',
             'numero_documento.required'          =>  'El número de documento es requerido',
-            'numero_documento.max'               =>  'El máximo permitido de caracteres es 10',
+            'numero_documento.max'               =>  'El máximo permitido de caracteres es 12',
             'numero_documento.unique'            =>  'Este número de documento ya existe',
             'direccion.required'                 =>  'El dirección es requerido',
             'direccion.max'                      =>  'El máximo permitido de caracteres es 91',

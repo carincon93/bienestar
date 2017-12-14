@@ -28,6 +28,7 @@ class PasswordRequest extends FormRequest
             'password'   => 'required|confirmed|min:6|max:18',
         ];
     }
+    
     public function messages()
     {
         return [

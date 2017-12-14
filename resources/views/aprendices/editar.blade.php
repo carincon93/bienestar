@@ -211,7 +211,7 @@
 				</div>
 				<div class="form-group">
 					<button class="btn btn-success" type="submit">
-						<i class="fa fa-fw fa-floppy-o"></i>
+						<i class="fas fa-save"></i>
 						Guardar
 					</button>
 				</div>

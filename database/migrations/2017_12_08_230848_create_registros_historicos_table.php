@@ -18,7 +18,6 @@ class CreateRegistrosHistoricosTable extends Migration
             $table->integer('aprendiz_id')->unsigned();
             $table->dateTime('fecha');
             $table->foreign('aprendiz_id')->references('id')->on('aprendices')->onDelete('cascade')->onUpdate('cascade');
-
             $table->timestamps();
             $table->dropColumn(['created_at', 'updated_at']);
         });
