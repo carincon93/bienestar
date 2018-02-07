@@ -4,7 +4,7 @@
 
 @section('informacion')
     <blockquote class="blockquote">
-        <p>Historial de aprendices que han recibido suplementos.</p>        
+        <p>Historial de aprendices que han recibido suplementos.</p>
     </blockquote>
 @endsection
 
@@ -34,21 +34,23 @@
                             $count = 1;
                             @endphp
                             @foreach($registros_historicos as $registro_historico)
+                                @php
+                                $dt = new Jenssegers\Date\Date($registro_historico->fecha);
+                                @endphp
                                 <tr>
                                     <td>{{ $count++ }}</td>
                                     <td>{{ $registro_historico->aprendiz->nombre_completo }}</td>
-                                    @php
-
-                                    $dt = new Jenssegers\Date\Date($registro_historico->fecha);
-
-                                    @endphp
-                                    <td>{{ $dt->format('l d F  Y h:i A') }}</td>
+                                    <td>
+                                        <span class="text-uppercase">{{ $dt->format('l d F') }}</span>
+                                        <div>
+                                            {{ $dt->format('Y h:i A') }}
+                                        </div>
+                                    </td>
 
                                     <td>
                                         <form action="{{ url('admin/registro_historico/'.$registro_historico->id) }}" style="display: inline-block;" data-nombre="{{ $registro_historico->aprendiz->nombre_completo }}"  method="POST" class="btn-delete-tbl btn btn-round">
-
                                             {{ method_field('delete') }}
-                                            {{ csrf_field()  }}
+                                            {{ csrf_field() }}
                                             <i class="fa fa-fw fa-trash"></i>
                                         </form>
                                     </td>
@@ -73,7 +75,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Total</th>
-                                <th></th>
+                                {{-- <th></th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -85,11 +87,11 @@
                                     <td>
                                         {{ $ultimo_registro->total }}
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         <a href="{{ url('admin/registro_historico/'.$ultimo_registro->id) }}" class="btn btn-round">
                                             <i class="fa fa-fw fa-external-link"></i>
                                         </a>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>

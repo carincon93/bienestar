@@ -1,8 +1,3 @@
-@font-face {
-  font-family: fontAwesome;
-  src: url(../webfonts/fa-regular-400.woff);
-}
-
 html {
   height: 100%;
 }
@@ -56,6 +51,14 @@ a:hover {
 
 .negados {
   color: #f00;
+}
+
+.aprendices-seleccionados {
+  margin-top: 10rem;
+}
+
+.aprendices-seleccionados h3 {
+  margin: 4rem 0;
 }
 
 .tooltip {
@@ -454,6 +457,8 @@ a.top-login:after {
 
 .alert {
   bottom: 3rem;
+  border-color: transparent;
+  color: #ffffff;
   position: fixed;
   right: 3rem;
   z-index: 19;
@@ -461,8 +466,10 @@ a.top-login:after {
 
 .alert-success {
   background-color: #32bb1f;
-  border-color: transparent;
-  color: #ffffff;
+}
+
+.alert-danger {
+  background: #fd0326;
 }
 
 [data-target="#modalEntrega"]:hover {
@@ -528,7 +535,6 @@ li.li-entrega a {
 
 #sidebar #sidebar-content ul li {
   margin: 8px 0;
-  padding: 1rem;
 }
 
 #sidebar #sidebar-content ul li.active {
@@ -590,6 +596,10 @@ li.li-entrega a {
 div.table-responsive > div.dataTables_wrapper > div:nth-child(1),
 div.table-responsive > div.dataTables_wrapper > div:nth-child(3) {
   padding: 2rem;
+}
+
+table {
+  font-size: 12px;
 }
 
 table caption {
@@ -832,7 +842,11 @@ table caption {
   width: 2.5rem;
 }
 
-.logobienestar-navbar {
+a.logo-wrapper {
+  padding: 0 !important;
+}
+
+a.logo-wrapper .logobienestar-navbar {
   float: right;
   margin-right: 3rem;
   width: 4%;
@@ -908,8 +922,11 @@ table caption {
 }
 
 #numero_documento {
-  float: left;
-  width: 90%;
+  height: 55px;
+}
+
+#numero_documento + span > button {
+  height: 55px;
 }
 
 #buscar_aprendiz {
@@ -917,6 +934,11 @@ table caption {
   height: inherit;
   padding: 7px 12px;
   width: 10%;
+}
+
+.descripcion-busqueda {
+  padding: 3rem 20rem;
+  text-align: center;
 }
 
 .aprendiz-card {
@@ -935,9 +957,9 @@ table caption {
 }
 
 .entrega-warning {
-  background: #E91E63;
-  color: #fff;
-  padding: 0.3rem 1rem;
+  border: 1px solid #E91E63;
+  color: #e91e63;
+  padding: 1rem;
 }
 
 .search-dates-wrapper {
@@ -1013,7 +1035,7 @@ table caption {
 .input-date-wrapper:before {
   bottom: 0;
   content: "\F073";
-  font-family: fontAwesome;
+  font-family: 'FontAwesome';
   font-size: 20px;
   position: absolute;
   left: 0rem;
@@ -1191,6 +1213,12 @@ input[name="fin"]:hover {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.align-center {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .d-flex #sidebar-system {

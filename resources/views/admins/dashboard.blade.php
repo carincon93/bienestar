@@ -92,10 +92,10 @@
                             <table class="table table-full table-hover table-aprendices" id="myTable">
                                 <caption>
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 col-sm-2">
                                             <a href="{{ url('admin/aprendiz/crear') }}" class="btn btn-success text-center"><i class="fa fa-fw fa-plus"></i> Añadir solicitud</a>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-3">
                                             <form action="{{ url('admin/aceptar_solicitudes') }}" method="POST" id="form-aceptar-solicitud">
                                                 {{ csrf_field() }}
                                                 {{-- <label for="">Selecciona las solicitudes que deseas aceptar</label> --}}

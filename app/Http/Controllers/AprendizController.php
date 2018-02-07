@@ -284,11 +284,14 @@ class AprendizController extends Controller
                         ];
                     }
                 }
+
                 if(!empty($dataArray))
                 {
                     Aprendiz::insertIgnore($dataArray);
                     return redirect('admin/dashboard')->with('status', 'Se ha importado el archivo con éxito!');
                 }
+            } else {
+                return redirect('admin/dashboard')->with('status-danger', 'No se ha podido importar el archivo!');
             }
         }
     }

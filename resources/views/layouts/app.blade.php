@@ -26,6 +26,12 @@
             {!! html_entity_decode(session('status')) !!}
         </div>
     @endif
+    @if (session('status-danger'))
+        <div class="alert alert-danger alert-dismissible animated" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+            {!! html_entity_decode(session('status-danger')) !!}
+        </div>
+    @endif
     {{-- @include('layouts.modal') --}}
     @include('layouts.modal_eliminar')
     @if (Auth::check())
@@ -109,7 +115,11 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             @if(!Auth::check())
-                                <li><img src="{{ url('/images/logo1.png') }}" class="img-responsive logobienestar-navbar"></li>
+                                <li>
+                                    <a href="{{ url('/') }}" class="logo-wrapper">
+                                        <img src="{{ url('/images/logo1.png') }}" class="img-responsive logobienestar-navbar">
+                                    </a>
+                                </li>
                                 <li class="dropdown dropdown-custom {{ count($errors) > 0 ? 'open' : '' }}">
                                     <a class="top-login dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciar sesión</a>
                                     <div class="dropdown-menu login-box">

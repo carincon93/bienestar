@@ -34,7 +34,12 @@
                                         $dt=new Jenssegers\Date\Date($registro_historico->fecha);
 
                                         @endphp
-                                        <td>{{ $dt->format('l d F Y h:i A')}}</td>
+                                        <td>
+                                            <span class="text-uppercase">{{ $dt->format('l d F') }}</span>
+                                            <div>
+                                                {{ $dt->format('Y h:i A') }}
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else

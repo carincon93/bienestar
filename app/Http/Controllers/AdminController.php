@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\PasswordRequest;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +14,7 @@ use Auth;
 use App\User;
 use App\Aprendiz;
 use App\RegistroHistorico;
+use App\Rules\checkHashedPass;
 
 class AdminController extends Controller
 {
@@ -43,19 +44,35 @@ class AdminController extends Controller
         return View('auth.passwords.password');
     }
 
-    public function updatePassword(PasswordRequest $request){
-        $admin = Auth::User();
-        if (Hash::check($request->mypassword, $admin->password)){
-            $admin2 = new User();
-            $admin2->where('email', '=', $admin->email)
-                 ->update(['password' => bcrypt($request->password)]);
-            return redirect('admin')->with('status', 'Contraseña cambiada con éxito');
+    public function updatePassword(Request $request){
+        $user = Auth::user();
+
+        $validation = Validator::make($request->all(), [
+            // Here's how our new validation rule is used.
+            'mypassword'    => ['required', new checkHashedPass],
+            'password'      => 'required|different:mypassword|confirmed|min:6|max:18'
+        ],
+        [
+            'mypassword.required'  => 'El campo es requerido',
+            'password.required'    => 'El campo es requerido',
+            'password.confirmed'   => 'Los contraseñas no coinciden',
+            'password.min'         => 'El mínimo permitido son 6 caracteres',
+            'password.max'         => 'El máximo permitido son 18 caracteres',
+            'password.different'   => 'La nueva contraseña debe ser diferente a la contraseña antigua',
+        ]);
+
+
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation->errors());
         }
-        else
-        {
-            return redirect('admin/password')->with('message', 'Su contraseña actual es incorrecta');
-        }
+
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
+
+        return redirect()->back()
+            ->with('status', 'Tu contraseña ha sido cambiada!');
     }
+
     public function truncateAll()
     {
         Schema::disableForeignKeyConstraints();
