@@ -15,6 +15,7 @@ class CreateAprendicesTable extends Migration
     {
         Schema::create('aprendices', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('foto')->default('public/aprendices/foto-default.png')->nullable();
             $table->string('nombre_completo', 128);
         	$table->string('tipo_documento', 32);
         	$table->bigInteger('numero_documento')->unique()->unsigned();

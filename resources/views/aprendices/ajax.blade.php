@@ -1,5 +1,14 @@
 @foreach($solicitud as $datos)
+    @php
+    // Setear foto de aprendiz (Solo cuando la url es localhost/.../public)
+    if ($datos->foto) {
+        $foto = explode('/', $datos->foto);
+    } else {
+        $foto = null;
+    }
+    @endphp
     <h3 class="text-center text-uppercase">{{ $datos->nombre_completo }}</h3>
+    <img src="{{ asset('storage/'.$foto[1].'/'.$foto[2]) }}" alt="" class="img-responsive foto-solicitud center-block">
     @if($datos->compromiso_informar == null || $datos->compromiso_normas == null)
         <blockquote class="blockquote blockquote-danger">
             <i class="fa fa-fw fa-warning"></i>

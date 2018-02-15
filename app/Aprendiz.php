@@ -14,6 +14,7 @@ class Aprendiz extends Model
     protected $table = 'aprendices';
 
     protected $fillable = [
+        'foto',
         'nombre_completo',
         'tipo_documento',
         'numero_documento',

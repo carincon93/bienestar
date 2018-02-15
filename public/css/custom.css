@@ -103,6 +103,10 @@ input[name="fin"] {
   outline: 0;
 }
 
+.has-error .help-block, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label {
+  color: #f33737;
+}
+
 button:focus {
   outline: 0;
 }
@@ -186,11 +190,10 @@ fieldset[disabled] .btn {
 .btn-modal-historial {
   background: #fff;
   color: #666;
-  margin-top: 1.6rem;
-  padding: 0.4rem 4rem;
-  width: 16rem;
-  margin: auto;
-  display: block;
+}
+
+.color-danger {
+  color: red;
 }
 
 .blockquote span.btn,
@@ -270,6 +273,14 @@ fieldset[disabled] .btn {
 
 .btn-link {
   color: #3097D1 !important;
+}
+
+.m0 {
+  margin: 0;
+}
+
+.mt-25 {
+  margin-top: 25px;
 }
 
 .btn-no-style {
@@ -937,29 +948,30 @@ a.logo-wrapper .logobienestar-navbar {
 }
 
 .descripcion-busqueda {
-  padding: 3rem 20rem;
+  padding-left: 50px;
+  padding-right: 50px;
   text-align: center;
 }
 
 .aprendiz-card {
-  background: -webkit-gradient(linear, left top, right top, from(#77b513), to(#b6cd11));
-  background: linear-gradient(to right, #77b513 0%, #b6cd11 100%);
-  -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.07), 1px 2px 5px 0 rgba(0, 0, 0, 0.06);
-  box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.07), 1px 2px 5px 0 rgba(0, 0, 0, 0.06);
-  color: #fff;
-  margin-top: 2rem;
-  padding: 1rem 1rem 0rem;
-  position: relative;
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  padding: 25px 25px 0 25px;
 }
 
-.aprendiz-card li {
-  margin: 0;
+.foto-aprendiz {
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin: auto;
+  width: 70%;
 }
 
-.entrega-warning {
-  border: 1px solid #E91E63;
-  color: #e91e63;
-  padding: 1rem;
+.foto-solicitud {
+  height: 200px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 150px;
 }
 
 .search-dates-wrapper {
@@ -1143,20 +1155,37 @@ input[name="fin"]:hover {
   width: 20%;
 }
 
-@media screen and (max-width: 50em) {
-  .inputfile-6 + label strong {
+.toggle-menu {
+  display: none;
+}
+
+.selector {
+  display: block;
+}
+
+@media (max-width: 991px) {
+  .navbar-top,
+  .dataTables_length {
+    display: none;
+  }
+  .toggle-menu {
     display: block;
   }
 }
 
+#sidebar {
+  background: #c7c7c7;
+  position: fixed;
+  height: 100%;
+  width: 260px;
+  z-index: 999;
+}
+
+#sidebar.selector1 {
+  display: block;
+}
+
 @media (min-width: 991px) {
-  #sidebar {
-    background: #c7c7c7;
-    display: block;
-    position: fixed;
-    height: 100%;
-    width: 260px;
-  }
   .app-check {
     padding-left: 260px;
   }

@@ -16,11 +16,22 @@
 	<div class="row">
 		<div class="col-md-8">
 			<div class="card-form">
-				<form action="{{ url('admin/aprendiz') }}" method="POST">
+				<form action="{{ url('admin/aprendiz') }}" method="post" enctype="multipart/form-data">
 					{{ csrf_field()  }}
 					<p>{{ count($errors) > 0 ? 'Por favor echa un vistazo a los errores y asegurate de llenar bien cada campo.' : '' }}</p>
 					<fieldset>
 						<legend>Datos personales</legend>
+						<div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
+							<label for="foto" class="control-label">
+								Foto <span class="requerido">*</span>
+							</label>
+							<input type="file" name="foto" class="form-control" value="{{ old('foto') }}" accept="image/*">
+							@if ($errors->has('foto'))
+								<span class="help-block">
+									{{ $errors->first('foto') }}
+								</span>
+							@endif
+						</div>
 						<div class="form-group{{ $errors->has('nombre_completo') ? ' has-error' : '' }}">
 							<label for="nombre_completo" class="control-label">
 								Nombre completo <span class="requerido">*</span>
@@ -242,9 +253,7 @@
 			<p>
 				Diligencie este formulario para agregar un solicitud.
 			</p>
-			<blockquote class="note note-info {{ count($errors) > 0 ? 'note-danger animated shake' : '' }}">
-				Los campos que tienen asterisco <span class="btn"><span class="requerido">*</span></span> son obligatorios.
-			</blockquote>
+			<small class="{{ count($errors) > 0 ? 'animated shake' : '' }}">Los campos que tienen asterisco <span class="btn"><span class="requerido">*</span></span> son obligatorios.</small>
 		</div>
 
 	</div>

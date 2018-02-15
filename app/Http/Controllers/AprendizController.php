@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Requests\AprendizRequest;
 
@@ -53,6 +54,12 @@ class AprendizController extends Controller
     public function store(AprendizRequest $request)
     {
         $aprendiz = new Aprendiz();
+        if ( $request->hasFile('foto') ) {
+            $path = Storage::putFile(
+                'public/aprendices', $request->file('foto')
+            );
+            $aprendiz->foto = $path;
+        }
         $aprendiz->nombre_completo     = strtoupper($request->get('nombre_completo'));
         $aprendiz->tipo_documento      = $request->get('tipo_documento');
         $aprendiz->numero_documento    = $request->get('numero_documento');
@@ -116,6 +123,12 @@ class AprendizController extends Controller
     public function update(AprendizRequest $request, $id)
     {
         $aprendiz = Aprendiz::findOrFail($id);
+        if ( $request->hasFile('foto') ) {
+            $path = Storage::putFile(
+                'public/aprendices', $request->file('foto')
+            );
+            $aprendiz->foto = $path;
+        }
         $aprendiz->nombre_completo       = $request->get('nombre_completo');
         $aprendiz->tipo_documento        = $request->get('tipo_documento');
         $aprendiz->numero_documento      = $request->get('numero_documento');
@@ -217,13 +230,13 @@ class AprendizController extends Controller
         $numero_documento       = $request->get('numero_documento_aprendiz');
 
         $aprendices             = DB::table('aprendices')
-                                ->select('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
+                                ->select('aprendices.id', 'aprendices.foto', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
                                 ->leftJoin('registros_historicos', 'registros_historicos.aprendiz_id', '=', 'aprendices.id')
                                 ->where([
                                     ['numero_documento', $numero_documento],
                                     ['estado_solicitud', '=', 1]
                                 ])
-                                ->groupBy('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
+                                // ->groupBy('aprendices.id', 'aprendices.nombre_completo', 'aprendices.numero_documento', 'aprendices.programa_formacion', 'aprendices.numero_ficha', 'registros_historicos.aprendiz_id', 'registros_historicos.fecha')
                                 ->orderBy('registros_historicos.fecha', 'DESC')
                                 ->limit(1)
                                 ->get();

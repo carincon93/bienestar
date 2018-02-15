@@ -31,47 +31,63 @@
 @section('content')
     @isset($aprendices)
         @forelse ($aprendices as $aprendiz)
-            <div class="aprendiz-card">
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="list-unstyled">
-                            <li class="h3"><strong>{{ $aprendiz->nombre_completo }}</strong></li>
-                            <li>{{ $aprendiz->numero_documento }}</li>
-                            <li class="text-uppercase">{{ $aprendiz->programa_formacion }}</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        @if(Auth::check())
-                            <a href="{{ url('admin/registro_historico/'.$aprendiz->id) }}" class="btn btn-modal-historial">Ver historial</a>
-                        @endif
+            @php
+            // Setear foto de aprendiz (Solo cuando la url es localhost/.../public)
+            if ($aprendiz->foto) {
+                $foto = explode('/', $aprendiz->foto);
+            } else {
+                $foto = null;
+            }
+
+            if ($aprendiz->fecha) {
+                $formatFecha = DateTime::createFromFormat('Y-m-d H:i:s', $aprendiz->fecha);
+                $ultimaFecha = $formatFecha->format('Y-m-d');
+            } else {
+                $ultimaFecha = null;
+            }
+            $fechaHumanos = new Jenssegers\Date\Date($aprendiz->fecha);
+            @endphp
+            <div>
+                <div class="aprendiz-card">
+                    <h4 class="text-uppercase text-center m0">{{ $aprendiz->programa_formacion }}</h4>
+                    <hr>
+                    <div class="row mt-25">
+                        <div class="col-md-3">
+                            <img src="{{ asset('storage/'.$foto[1].'/'.$foto[2]) }}" alt="" class="img-responsive foto-aprendiz">
+                        </div>
+                        <div class="col-md-9">
+                            <ul class="list-unstyled">
+                                <li class="h3 m0"><strong>{{ $aprendiz->nombre_completo }}</strong></li>
+                                <li>{{ $aprendiz->numero_documento }}</li>
+                            </ul>
+                            <ul class="list-inline">
+                                @if(Auth::check())
+                                    <li>
+                                        <a href="{{ url('admin/registro_historico/'.$aprendiz->id) }}" class="btn btn-modal-historial">Ver historial</a>
+                                    </li>
+                                @endif
+                                @if($ultimaFecha == date('Y-m-d'))
+                                    <li>
+                                        <p class="text-uppercase text-center advertencia mt-25">
+                                            <i class="fas fa-exclamation-triangle color-danger"></i>
+                                            El aprendiz ya recibió el suplemento!
+                                            Última fecha: <strong>{{ $fechaHumanos->format('l d F Y h:i A')}}</strong>
+                                        </p>
+                                    </li>
+                                @else
+                                    <li>
+                                        <form action="{{ url($aprendiz->id.'/entrega_suplemento') }}" id="formEntrega" method="post">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="aprendiz_id" value="{{ $aprendiz->id }}">
+                                            <button type="submit" class="text-uppercase center-block btn btn-success" id="entregarSuplemento">Entregar suplemento</button>
+                                        </form>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-            @php
-            $fecha = substr($aprendiz->fecha, 0, -9);
-            @endphp
-            @if($fecha == date('Y-m-d'))
-                @php
-                $dt = new Jenssegers\Date\Date($aprendiz->fecha);
-                @endphp
-                <div class="entrega-warning">
-                    <div class="text-center">
-                        <i class="fas fa-exclamation-triangle fa-2x"></i>
-                    </div>
-                    <p class="text-center">
-                        El aprendiz ya recibió el suplemento!
-                    </p>
-                    <p class="text-center text-uppercase">
-                        Última fecha: <strong>{{ $dt->format('l d F Y h:i A')}}</strong>
-                    </p>
-                </div>
-            @else
-                <form action="{{ url($aprendiz->id.'/entrega_suplemento') }}" id="formEntrega" method="POST">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="aprendiz_id" value="{{ $aprendiz->id }}">
-                    <button type="submit" class="text-uppercase center-block btn btn-success" id="entregarSuplemento">Entregar suplemento</button>
-                </form>
-            @endif
         @empty
             <p class="h3 text-center">
                 <strong>Información: </strong>El aprendiz no existe o su solicitud no ha sido aceptada aún.

@@ -35,7 +35,8 @@
     {{-- @include('layouts.modal') --}}
     @include('layouts.modal_eliminar')
     @if (Auth::check())
-        <aside id="sidebar">
+        <button class="toggle-menu" type="button">menu</button>
+        <aside id="sidebar" class="selector selector1">
             <div id="sidebar-logo">
                 <a href="{{ url('admin/dashboard') }}"><img src="{{ asset('/images/logo-bienestar.svg') }}" alt="" class="img-responsive"></a>
             </div>
@@ -99,7 +100,7 @@
     @endif
     <main id="app">
         <div class="{{ Auth::check() ? 'app-check' : ''}}">
-            <nav class="navbar navbar-default {{ Auth::check() ? 'mleft' : '' }}">
+            <nav class="navbar navbar-top navbar-default {{ Auth::check() ? 'mleft' : '' }}">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
@@ -207,25 +208,17 @@
             </div><!-- /.container-fluid -->
         </nav>
         <div class="main-content">
-            <!-- <div class="row no-gutter"> -->
             <div class="container-fluid">
-                <div class="col-md-12 big-content">
-                    <!-- <div class="{{ Auth::guest() ? 'col-md-9' : 'col-md-12' }} big-content"> -->
-                    <div class="informacion clearfix">
+                <div class="big-content">
+                    <div class="informacion">
                         @yield('informacion')
                     </div>
                     @yield('content')
                 </div>
-                <!-- <div class="{{ Auth::guest() ? 'col-md-3 right-content' : ''}}">
-                <div>
                 @yield('right-content')
             </div>
-        </div> -->
+        </div>
     </div>
-
-</div>
-
-</div>
 </main>
 
 <!-- Scripts -->

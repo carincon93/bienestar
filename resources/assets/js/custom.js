@@ -8,6 +8,11 @@ var delay = (function(){
 
 $(document).ready(function () {
 
+    $('.toggle-menu').click(function(event) {
+        event.preventDefault();
+        $('#sidebar').toggleClass('selector');
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
 
     $(function () {
@@ -21,7 +26,7 @@ $(document).ready(function () {
     });
 
     var table = $('#myTable').DataTable();
-    
+
     $('#tbl_solicitudesNoAceptadas').DataTable();
 
     $('#form-aceptar-solicitud').on('click', function (e) {

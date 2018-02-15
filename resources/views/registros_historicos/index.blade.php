@@ -13,12 +13,6 @@
     <div class="row">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
-                    <h4>
-                        <i class="fa fa-fw fa-table"></i>
-                        Tabla historial
-                    </h4>
-                </div>
                 <div class="table-responsive card-content">
                     <table class="table table-full table-hover" id="myTable" data-form="deleteForm">
                         <thead>

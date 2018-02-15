@@ -86,6 +86,11 @@ var delay = function () {
 
 $(document).ready(function () {
 
+    $('.toggle-menu').click(function (event) {
+        event.preventDefault();
+        $('#sidebar').toggleClass('selector');
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
 
     $(function () {

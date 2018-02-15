@@ -12,10 +12,21 @@
 @section('content')
 	<div class="col-md-8">
 		<div class="card-form">
-			<form action="{{ url('admin/aprendiz/'.$aprendiz->id) }}" method="POST">
+			<form action="{{ url('admin/aprendiz/'.$aprendiz->id) }}" method="post" enctype="multipart/form-data">
 				{{ csrf_field()  }}
-				{{ method_field('PUT') }}
+				{{ method_field('put') }}
 				<p class="note note-danger">{{ count($errors) > 0 ? 'Información: Por favor echa un vistazo a los errores y asegurate de llenar bien cada campo.' : '' }}</p>
+				<div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
+					<label for="foto" class="control-label">
+						Foto <span class="requerido">*</span>
+					</label>
+					<input type="file" name="foto" class="form-control" value="{{ old('foto') }}" accept="image/*">
+					@if ($errors->has('foto'))
+						<span class="help-block">
+							{{ $errors->first('foto') }}
+						</span>
+					@endif
+				</div>
 				<div class="form-group{{ $errors->has('nombre_completo') ? ' has-error' : '' }}">
 					<label for="nombre_completo" class="control-label">
 						Nombre completo *
