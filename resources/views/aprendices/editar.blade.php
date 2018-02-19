@@ -4,8 +4,8 @@
 
 @section('informacion')
 	<ul class="breadcrumb">
-		<li><a href="{{ url('admin/dashboard') }}" class="btn-link">Lista de aprendices</a></li>
-		<li>Editar aprendiz</li>
+		<li><a href="{{ url('admin/dashboard') }}" class="btn-link">Lista de solicitudes</a></li>
+		<li>Editar solicitud</li>
 	</ul>
 @endsection
 
@@ -18,9 +18,9 @@
 				<p class="note note-danger">{{ count($errors) > 0 ? 'Información: Por favor echa un vistazo a los errores y asegurate de llenar bien cada campo.' : '' }}</p>
 				<div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
 					<label for="foto" class="control-label">
-						Foto <span class="requerido">*</span>
+						Foto
 					</label>
-					<input type="file" name="foto" class="form-control" value="{{ old('foto') }}" accept="image/*">
+					<input type="file" name="foto" id="foto" class="form-control" value="{{ old('foto') }}" accept="image/*">
 					@if ($errors->has('foto'))
 						<span class="help-block">
 							{{ $errors->first('foto') }}
@@ -230,12 +230,12 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<h3><i class="fa fa-fw fa-pencil"></i> Editar aprendiz</h3>
+		<h3><i class="fas fa-pencil-alt"></i> Editar solicitud</h3>
 		<p>
-			Diligencie este formulario para Editar un aprendiz.
+			Diligencie este formulario para editar una solicitud.
 		</p>
-		<blockquote class="note note-info {{ count($errors) > 0 ? 'note-danger animated shake' : '' }}">
-			Los campos que tienen asterisco <span class="btn">*</span> son obligatorios.
-		</blockquote>
+		{{-- <blockquote class="note note-info {{ count($errors) > 0 ? 'note-danger animated shake' : '' }}"> --}}
+			<small class="{{ count($errors) > 0 ? 'animated shake' : '' }}">Los campos que tienen asterisco <span class="btn"><span class="requerido">*</span></span> son obligatorios.</small>
+		{{-- </blockquote> --}}
 	</div>
 @endsection

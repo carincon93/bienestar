@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-7">
                             <form class="" action="{{ url('busqueda_aprendiz') }}" method="GET">
-                                <div class="input-group">
+                                <div class="input-group busqueda-aprendiz">
                                     <input name="numero_documento_aprendiz" type="number" class="form-control" placeholder="Número de documento del aprendiz" id="numero_documento" autocomplete="off" min="0" autofocus>
                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-default">Buscar</button>

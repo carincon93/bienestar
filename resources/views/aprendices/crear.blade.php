@@ -4,8 +4,8 @@
 
 @section('informacion')
 	<ul class="breadcrumb">
-		<li><a href="{{ url('admin/dashboard') }}" class="btn-link">Lista de aprendices</a></li>
-		<li>Adicionar aprendiz</li>
+		<li><a href="{{ url('admin/dashboard') }}" class="btn-link">Lista de solicitudes</a></li>
+		<li>Adicionar solicitud</li>
 	</ul>
 @endsection
 
@@ -23,9 +23,9 @@
 						<legend>Datos personales</legend>
 						<div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
 							<label for="foto" class="control-label">
-								Foto <span class="requerido">*</span>
+								Foto
 							</label>
-							<input type="file" name="foto" class="form-control" value="{{ old('foto') }}" accept="image/*">
+							<input type="file" name="foto" id="foto" class="form-control" value="{{ old('foto') }}" accept="image/*">
 							@if ($errors->has('foto'))
 								<span class="help-block">
 									{{ $errors->first('foto') }}
@@ -251,7 +251,7 @@
 		<div class="col-md-4">
 			<h3><i class="fa fa-fw fa-plus"></i> Adicionar solicitud</h3>
 			<p>
-				Diligencie este formulario para agregar un solicitud.
+				Diligencie este formulario para agregar una solicitud.
 			</p>
 			<small class="{{ count($errors) > 0 ? 'animated shake' : '' }}">Los campos que tienen asterisco <span class="btn"><span class="requerido">*</span></span> son obligatorios.</small>
 		</div>

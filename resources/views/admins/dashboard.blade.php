@@ -75,87 +75,83 @@ Por favor de click en <span class="btn">Ver solicitud</span> verifica todos los 
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active row" id="firstTable">
-            <div class="row">
-
-                <div class="col-md-12">
-                    <div class="card">
-                        <div>
-                            <div class="table-responsive">
-                                <table class="table table-full table-hover table-aprendices" id="myTable">
-                                    <caption>
-                                        <div class="row">
-                                            <div class="col-md-2 col-sm-2">
-                                                <a href="{{ url('admin/aprendiz/crear') }}" class="btn btn-success text-center"><i class="fa fa-fw fa-plus"></i> Añadir solicitud</a>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <form action="{{ url('admin/aceptar_solicitudes') }}" method="POST" id="form-aceptar-solicitud">
-                                                    {{ csrf_field() }}
-                                                    {{-- <label for="">Selecciona las solicitudes que deseas aceptar</label> --}}
-                                                    <div class="form-group"></div>
-                                                    <button type="button" class="btn"><i class="fas fa-check fa-fw"></i> Aceptar solicitudes</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </caption>
-                                    <thead>
-                                        <tr>
-                                            {{-- <th>#</th> --}}
-                                            <th></th>
-                                            <th>Estado</th>
-                                            <th>Nombre completo</th>
-                                            <th>Número de documento</th>
-                                            <th>Programa de formación</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody  id="myTableAprendiz">
-                                        @php
-                                        $count = 1;
-                                        @endphp
-                                        @foreach($solicitudAceptado as $sa)
-                                            <tr>
-                                                {{-- <td>{{ $count++ }}</td> --}}
-                                                <td>
-                                                    <input type="checkbox" name="id[]" value="{{ $sa->id }}">
-                                                </td>
-                                                <td>
-                                                    @if ($sa->estado_solicitud == 1)
-                                                        {{-- <i class="fa fa-fw fa-circle circle-green" data-toggle="tooltip" data-placement="top" title="Solicitud aceptada"></i> --}}
-                                                        <i class="fas fa-circle circle-green"></i> ACTIVO
-                                                    @else
-                                                        {{-- <i class="fa fa-fw fa-circle" data-toggle="tooltip" data-placement="top" title="Solicitud sin aceptar"></i> --}}
-                                                        INACTIVO
-                                                    @endif
-                                                </td>
-                                                <td>{{ $sa->nombre_completo }}</td>
-                                                <td>{{ $sa->numero_documento }}</td>
-                                                <td>{{ $sa->programa_formacion }}</td>
-                                                <td class="td-actions">
-                                                    <button class="btn btn-solicitud" data-toggle="modal" data-target="#modalSolicitud" data-id="{{ $sa->id }}" data-nombre="{{ $sa->nombre_completo }}">
-                                                        Ver solicitud
-                                                    </button>
-                                                    <a class="btn btn-round" href="{{ url('admin/aprendiz/'.$sa->id.'/editar') }}" data-toggle="tooltip" data-placement="top" title="Editar solicitud">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </a>
-                                                    <form action="{{ url('admin/aprendiz/'.$sa->id) }}" style="display: inline-block;" data-nombre="{{ $sa->nombre_completo }}" method="POST" class="btn-delete-tbl btn btn-round" data-toggle="tooltip" data-placement="top" title="Eliminar solicitud">
-                                                        {{ method_field('delete') }}
-                                                        {{ csrf_field()  }}
-                                                        <i class="fa fa-fw fa-trash"></i>
-                                                    </form>
-                                                    <a href="{{ url('admin/registro_historico/'.$sa->id) }}" class="btn btn-round" data-toggle="tooltip" data-placement="top" title="Ver historial">
-                                                        <i class="fas fa-external-link-alt"></i>
-                                                    </a>
-                                                    <a href="{{ url('busqueda_aprendiz?numero_documento_aprendiz=' . $sa->numero_documento) }}" data-toggle="tooltip" data-placement="top" title="Buscar aprendiz"><i class="fas fa-angle-right"></i></a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="card">
+                <div>
+                    <div class="table-responsive">
+                        <table class="table table-full table-hover table-aprendices" id="myTable">
+                            <caption>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2">
+                                        <a href="{{ url('admin/aprendiz/crear') }}" class="btn btn-success text-center"><i class="fa fa-fw fa-plus"></i> Añadir solicitud</a>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <form action="{{ url('admin/aceptar_solicitudes') }}" method="POST" id="form-aceptar-solicitud">
+                                            {{ csrf_field() }}
+                                            {{-- <label for="">Selecciona las solicitudes que deseas aceptar</label> --}}
+                                            <div class="form-group"></div>
+                                            <button type="button" class="btn"><i class="fas fa-check fa-fw"></i> Aceptar solicitudes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </caption>
+                            <thead>
+                                <tr>
+                                    {{-- <th>#</th> --}}
+                                    <th></th>
+                                    <th>Estado</th>
+                                    <th>Nombre completo</th>
+                                    <th>Número de documento</th>
+                                    <th>Programa de formación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody  id="myTableAprendiz">
+                                @php
+                                $count = 1;
+                                @endphp
+                                @foreach($solicitudAceptado as $sa)
+                                    <tr>
+                                        {{-- <td>{{ $count++ }}</td> --}}
+                                        <td>
+                                            <input type="checkbox" name="id[]" value="{{ $sa->id }}">
+                                        </td>
+                                        <td>
+                                            @if ($sa->estado_solicitud == 1)
+                                                {{-- <i class="fa fa-fw fa-circle circle-green" data-toggle="tooltip" data-placement="top" title="Solicitud aceptada"></i> --}}
+                                                <i class="fas fa-circle circle-green"></i> ACTIVO
+                                            @else
+                                                {{-- <i class="fa fa-fw fa-circle" data-toggle="tooltip" data-placement="top" title="Solicitud sin aceptar"></i> --}}
+                                                INACTIVO
+                                            @endif
+                                        </td>
+                                        <td>{{ $sa->nombre_completo }}</td>
+                                        <td>{{ $sa->numero_documento }}</td>
+                                        <td>{{ $sa->programa_formacion }}</td>
+                                        <td class="td-actions">
+                                            <button class="btn btn-solicitud" data-toggle="modal" data-target="#modalSolicitud" data-id="{{ $sa->id }}" data-nombre="{{ $sa->nombre_completo }}">
+                                                Ver solicitud
+                                            </button>
+                                            <a class="btn btn-round" href="{{ url('admin/aprendiz/'.$sa->id.'/editar') }}" data-toggle="tooltip" data-placement="top" title="Editar solicitud">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <form action="{{ url('admin/aprendiz/'.$sa->id) }}" style="display: inline-block;" data-nombre="{{ $sa->nombre_completo }}" method="POST" class="btn-delete-tbl btn btn-round" data-toggle="tooltip" data-placement="top" title="Eliminar solicitud">
+                                                {{ method_field('delete') }}
+                                                {{ csrf_field()  }}
+                                                <i class="fa fa-fw fa-trash"></i>
+                                            </form>
+                                            <a href="{{ url('admin/registro_historico/'.$sa->id) }}" class="btn btn-round" data-toggle="tooltip" data-placement="top" title="Ver historial">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                            <a href="{{ url('busqueda_aprendiz?numero_documento_aprendiz=' . $sa->numero_documento) }}" data-toggle="tooltip" data-placement="top" title="Buscar aprendiz"><i class="fas fa-angle-right"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+
         </div>
         <div role="tabpanel" class="tab-pane row" id="secondTable">
             <div class="row">

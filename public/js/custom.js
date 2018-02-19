@@ -89,6 +89,7 @@ $(document).ready(function () {
     $('.toggle-menu').click(function (event) {
         event.preventDefault();
         $('#sidebar').toggleClass('selector');
+        $('main > div').toggleClass('app-check');
     });
 
     $('[data-toggle="tooltip"]').tooltip();

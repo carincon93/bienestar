@@ -316,7 +316,7 @@ button[name="button-import"] {
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-    background-color: #d9cc00;
+    background-color: #b7b7b7;
     border: 0px;
     border-radius: 0px;
 }
@@ -328,7 +328,11 @@ button[name="button-import"] {
 }
 
 .nav-tabs.lista-aprendices-tabs {
+    display: flex;
     margin: 4rem 0rem;
+    li {
+        flex: 1;
+    }
 }
 
 .legend {
@@ -513,15 +517,7 @@ li.li-entrega a {
     font-size: 11px;
 }
 
-#sidebar {
-    display: none;
-}
 
-#sidebar #sidebar-logo img {
-    margin: 0 auto;
-    padding: 1rem;
-    width: 70%;
-}
 
 .li-entrega {
     background: -ms-linear-gradient(0deg, #dccd00 0%, #b6cd11 100%);
@@ -531,6 +527,23 @@ li.li-entrega a {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DCCD00',endColorstr='#B6CD11' , GradientType=1);
 }
 
+#sidebar {
+    background: #c7c7c7;
+    position: fixed;
+    height: 100%;
+    width: 260px;
+    z-index: 999;
+
+    &.selector {
+        display: none;
+    }
+}
+
+#sidebar #sidebar-logo img {
+    margin: 0 auto;
+    padding: 1rem;
+    width: 70%;
+}
 #sidebar #sidebar-content {
     padding: 1rem;
 }
@@ -957,18 +970,9 @@ a.logo-wrapper {
 .aprendiz-card {
     background-color: #fff;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-    padding: 25px 25px 0 25px;
+    padding: 25px 25px 15px 25px;
 }
-//
-// .aprendiz-card li {
-//     margin: 0;
-// }
-//
-// .entrega-warning {
-//     border: 1px solid #E91E63;
-//     color: #e91e63;
-//     padding: 1rem;
-// }
+
 .foto-aprendiz {
     object-fit: contain;
     margin: auto;
@@ -1031,6 +1035,16 @@ a.logo-wrapper {
     width: 100%;
 }
 
+.busqueda-aprendiz:before {
+    content: '\F105';
+    color: #ececec;
+    font-family: FontAwesome;
+    font-size: 100px;
+    position: absolute;
+    left: -12.4%;
+    top: -60px;
+}
+
 .input-date-wrapper.focus label {
     color: #ff8f2f;
 }
@@ -1080,113 +1094,26 @@ input[name="fin"]:hover {
     cursor: pointer;
 }
 
-/*import*/
-.js .inputfile {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-}
-
-.inputfile + label {
-    font-size: 1.25rem;
-    /* 20px */
-    font-weight: 700;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: pointer;
-    display: inline-block;
-    overflow: hidden;
-    padding: 0.625rem 1.25rem;
-    /* 10px 20px */
-}
-
-.no-js .inputfile + label {
-    display: none;
-}
-
-.inputfile + label svg {
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-    fill: #666;
-    margin-top: -0.25em;
-    /* 4px */
-    margin-right: 0.25em;
-    /* 4px */
-}
-
-/* style 5 */
-.inputfile-5 + label {
-    background: #eee;
-    display: block;
-    margin: 0;
-    text-align: center;
-}
-
-.inputfile-5 + label:hover svg {
-    fill: #666;
-}
-
-.inputfile-5 + label figure {
-    width: 100px;
-    height: 135px;
-    display: block;
-    position: relative;
-    padding: 30px;
-    margin: 0 auto 10px;
-}
-
-.inputfile-5 + label figure::before {
-    border-top: 20px solid #f9f9f9;
-    border-left: 20px solid transparent;
-}
-
-.inputfile-5 + label figure::after {
-    border-right: 20px solid transparent;
-}
-
-.inputfile-5 + label svg {
-    width: 100%;
-    height: 100%;
-    fill: #989898;
-    -webkit-transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in;
-}
-
-.import-img {
-    margin: 2rem auto;
-    width: 20%;
-}
 .toggle-menu {
-    display: none;
+    // display: none;
 }
-.selector {
-    display: block;
-}
+
+
+//
+// Media Queries
+//
 
 @media (max-width: 991px) {
     .navbar-top,
     .dataTables_length {
         display: none;
     }
-    .toggle-menu {
-        display: block;
+
+    .d-flex {
+        flex-direction: column;
     }
 }
 
-#sidebar {
-    background: #c7c7c7;
-    position: fixed;
-    height: 100%;
-    width: 260px;
-    z-index: 999;
-}
-#sidebar.selector1 {
-    display: block;
-}
 @media (min-width: 991px) {
     .app-check {
         padding-left: 260px;

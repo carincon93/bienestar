@@ -10,6 +10,7 @@
 
     <title>@yield('title')</title>
 
+    <link rel="shortcut icon" type="image/ico" href="{{ asset('favicon.ico') }}"/>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fontawesome-all.min.css') }}" rel="stylesheet">
@@ -35,16 +36,12 @@
     {{-- @include('layouts.modal') --}}
     @include('layouts.modal_eliminar')
     @if (Auth::check())
-        <button class="toggle-menu" type="button">menu</button>
-        <aside id="sidebar" class="selector selector1">
+        <aside id="sidebar">
             <div id="sidebar-logo">
                 <a href="{{ url('admin/dashboard') }}"><img src="{{ asset('/images/logo-bienestar.svg') }}" alt="" class="img-responsive"></a>
             </div>
             <div id="sidebar-admin">
-                <div>
-                    <div>
-                    </div>
-                </div>
+                <div></div>
             </div>
             <div id="sidebar-content">
                 <ul class="sidebar-menu list-unstyled">
@@ -59,12 +56,7 @@
 
                     <li class="li-item li-entrega">
                         <a href="{{ url('/') }}" class="clearfix">
-                            <div class="col-md-8">
-                                <img src="{{ asset('images/suplemento.png') }}" alt="" class="img-responsive logo-suplemento-sidebar">
-                            </div>
-                            <div class="col-md-4">
-                                Entregar
-                            </div>
+                            Entregar
                         </a>
                     </li>
 
@@ -114,6 +106,11 @@
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-left">
+                            <li>
+                                <button class="toggle-menu btn btn-default btn-sm" type="button"><i class="fas fa-bars"></i></button>
+                            </li>
+                        </ul>
                         <ul class="nav navbar-nav navbar-right">
                             @if(!Auth::check())
                                 <li>
